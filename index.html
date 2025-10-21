@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Für Mia</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --pink-1: #fff0f6;
+        --pink-2: #ffd7e9;
+        --accent: #ff5c9e;
+        --soft: #ffffff;
+        --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: Poppins, system-ui, -apple-system, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial;
+        background: radial-gradient(
+          1200px 600px at 10% 10%,
+          #fff6fb 0%,
+          var(--pink-1) 15%,
+          var(--pink-2) 100%
+        );
+        color: #333;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px;
+      }
+
+      .card {
+        width: 100%;
+        max-width: 1000px;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.9),
+          rgba(255, 255, 255, 0.75)
+        );
+        border-radius: 28px;
+        padding: 28px;
+        box-shadow: var(--shadow);
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.6);
+      }
+
+      header {
+        display: flex;
+        gap: 18px;
+        align-items: center;
+      }
+
+      .title {
+        font-family: Pacifico, sans-serif;
+        font-size: 36px;
+        color: var(--accent);
+        line-height: 1;
+        text-shadow: 0 2px 6px rgba(255, 92, 158, 0.15);
+      }
+      .subtitle {
+        font-size: 14px;
+        color: #a33b63;
+      }
+
+      /* cute cat svg container */
+      .kitty {
+        width: 140px;
+        height: 140px;
+        flex: 0 0 140px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transform: translateY(-6px);
+      }
+
+      .message {
+        margin-top: 18px;
+        padding: 18px;
+        border-radius: 16px;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.6),
+          rgba(255, 255, 255, 0.4)
+        );
+        box-shadow: inset 0 -6px 18px rgba(255, 92, 158, 0.03);
+        font-size: 18px;
+      }
+
+      .message .typing {
+        font-weight: 600;
+        color: #b00058;
+      }
+
+      .controls {
+        margin-top: 16px;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+      .btn {
+        padding: 10px 14px;
+        border-radius: 12px;
+        border: none;
+        cursor: pointer;
+        font-weight: 600;
+        background: var(--accent);
+        color: white;
+        box-shadow: 0 6px 18px rgba(255, 92, 158, 0.18);
+      }
+      .btn.ghost {
+        background: transparent;
+        color: var(--accent);
+        border: 2px solid rgba(255, 92, 158, 0.12);
+      }
+
+      .hearts {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        pointer-events: none;
+      }
+
+      /* gallery */
+      .gallery {
+        margin-top: 20px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 12px;
+      }
+      .photo {
+        background: linear-gradient(180deg, #fff, #fff0);
+        border-radius: 12px;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px dashed rgba(255, 92, 158, 0.12);
+        min-height: 120px;
+        overflow: hidden;
+      }
+      .photo img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+        display: block;
+      }
+
+      footer {
+        margin-top: 18px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .small {
+        font-size: 12px;
+        color: #9a3b69;
+      }
+
+      /* floating hearts animation */
+      @keyframes floatUp {
+        0% {
+          transform: translateY(0) scale(1);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-280px) scale(1.2);
+          opacity: 0;
+        }
+      }
+
+      /* responsive */
+      @media (max-width: 640px) {
+        .title {
+          font-size: 28px;
+        }
+        .kitty {
+          width: 110px;
+          height: 110px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <div class="hearts" id="hearts"></div>
+      <header>
+        <div class="kitty" aria-hidden="true">
+          <!-- Simple cute cat SVG (Hello-Kitty-inspired but original) -->
+          <svg
+            width="120"
+            height="120"
+            viewBox="0 0 120 120"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <defs>
+              <linearGradient id="g1" x1="0" x2="1">
+                <stop offset="0" stop-color="#fff" />
+                <stop offset="1" stop-color="#ffeef6" />
+              </linearGradient>
+            </defs>
+            <g transform="translate(10 6)">
+              <ellipse
+                cx="50"
+                cy="54"
+                rx="42"
+                ry="38"
+                fill="url(#g1)"
+                stroke="#ffd6ea"
+                stroke-width="2"
+              />
+              <!-- ears -->
+              <path
+                d="M12 22 L28 6 L36 26 Z"
+                fill="#fff"
+                stroke="#ffd6ea"
+                stroke-width="2"
+              />
+              <path
+                d="M88 22 L72 6 L64 26 Z"
+                fill="#fff"
+                stroke="#ffd6ea"
+                stroke-width="2"
+              />
+              <!-- eyes -->
+              <circle cx="36" cy="52" r="4" fill="#5b2a3a" />
+              <circle cx="64" cy="52" r="4" fill="#5b2a3a" />
+              <!-- nose -->
+              <ellipse cx="50" cy="62" rx="6" ry="4" fill="#ff9ab8" />
+              <!-- whiskers -->
+              <path
+                d="M22 62 H6"
+                stroke="#c37"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <path
+                d="M22 68 H6"
+                stroke="#c37"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <path
+                d="M78 62 H94"
+                stroke="#c37"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <path
+                d="M78 68 H94"
+                stroke="#c37"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <!-- bow -->
+              <g transform="translate(72 30)">
+                <ellipse
+                  cx="0"
+                  cy="0"
+                  rx="12"
+                  ry="8"
+                  fill="#ff5c9e"
+                  stroke="#c93a6b"
+                  stroke-width="1"
+                />
+                <ellipse
+                  cx="26"
+                  cy="0"
+                  rx="12"
+                  ry="8"
+                  fill="#ff5c9e"
+                  stroke="#c93a6b"
+                  stroke-width="1"
+                />
+                <circle
+                  cx="13"
+                  cy="0"
+                  r="6"
+                  fill="#ffd7e9"
+                  stroke="#c93a6b"
+                  stroke-width="1"
+                />
+              </g>
+            </g>
+          </svg>
+        </div>
+        <div>
+          <div class="title">Für meine wundervolle Mia</div>
+          <div class="subtitle">Ein kleines süßes Geschenk nur für dich 💕</div>
+        </div>
+      </header>
+
+      <div class="message" id="message">
+        <div id="text">
+          Mia, du bist mein Lieblingsmensch. Du machst jeden Tag heller, süßer
+          und schöner genau wie mein kleiner Katzenfreund hier.
+          <span class="typing" id="typed"></span>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button class="btn" id="reveal">Mehr Herzchen</button>
+        <button class="btn ghost" id="toggleType">Stop Typing</button>
+
+        <label
+          style="
+            margin-left: auto;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+          "
+        >
+          <input
+            type="file"
+            id="photos"
+            accept="image/*"
+            multiple
+            style="display: none"
+          />
+          <button class="btn ghost" id="addPhotos">Fotos hinzufügen</button>
+        </label>
+      </div>
+
+      <div class="gallery" id="gallery">
+        <div class="photo">
+          Füge Bilder hinzu, um eine kleine Collage zu sehen ✨
+        </div>
+      </div>
+
+      <footer>
+        <div class="small">Erstellt mit viel Liebe 💖</div>
+        <div class="small">
+          Klicke auf die Herzen, um mehr Magie zu sehen ✨
+        </div>
+      </footer>
+    </div>
+
+    <script>
+      // Typing effect for the sweet line
+      (function () {
+        const full = [
+          "Ich liebe dich.",
+          "Du bringst mich zum Lächeln.",
+          "Für immer und ewig ❤️",
+        ];
+        let i = 0,
+          j = 0,
+          forward = true,
+          typing = true;
+        const el = document.getElementById("typed");
+        const toggleBtn = document.getElementById("toggleType");
+
+        function step() {
+          if (!typing) {
+            return;
+          }
+          const word = full[i];
+          if (forward) {
+            j++;
+            el.textContent = word.slice(0, j);
+            if (j === word.length) {
+              forward = false;
+              setTimeout(step, 1200);
+              return;
+            }
+          } else {
+            j--;
+            el.textContent = word.slice(0, j);
+            if (j === 0) {
+              forward = true;
+              i = (i + 1) % full.length;
+            }
+          }
+          setTimeout(step, 120 + Math.random() * 80);
+        }
+        step();
+
+        toggleBtn.addEventListener("click", () => {
+          typing = !typing;
+          toggleBtn.textContent = typing ? "Stop Typing" : "Start Typing";
+          if (typing) step();
+        });
+      })();
+
+      // Floating hearts generator
+      (function () {
+        const hearts = document.getElementById("hearts");
+        function createHeart(x) {
+          const h = document.createElement("div");
+          const size = 14 + Math.random() * 28;
+          h.style.width = size + "px";
+          h.style.height = size + "px";
+          h.style.position = "absolute";
+          h.style.left = (x || 20 + Math.random() * 80) + "%";
+          h.style.bottom = "-10px";
+          h.style.background =
+            "radial-gradient(circle at 30% 30%, #fff, #ff9bc0)";
+          h.style.borderRadius = "50% 50% 50% 50% / 60% 60% 40% 40%";
+          h.style.transform = "rotate(45deg)";
+          h.style.opacity = 0.95;
+          h.style.pointerEvents = "none";
+          h.style.filter = "drop-shadow(0 6px 12px rgba(255,92,158,0.12))";
+          h.style.animation =
+            "floatUp " + (4 + Math.random() * 3) + "s ease-in forwards";
+          hearts.appendChild(h);
+          setTimeout(() => h.remove(), 8000);
+        }
+
+        // periodic
+        let interval = setInterval(() => createHeart(), 900);
+        document.getElementById("reveal").addEventListener("click", () => {
+          // burst of hearts
+          for (let k = 0; k < 18; k++) {
+            setTimeout(() => createHeart(10 + Math.random() * 80), k * 80);
+          }
+        });
+
+        // click to spawn hearts at cursor
+        document.querySelector(".card").addEventListener("click", (e) => {
+          const rect = e.currentTarget.getBoundingClientRect();
+          const x = ((e.clientX - rect.left) / rect.width) * 100;
+          createHeart(x);
+        });
+      })();
+
+      // Photo upload -> gallery preview
+      (function () {
+        const input = document.getElementById("photos");
+        const button = document.getElementById("addPhotos");
+        const gallery = document.getElementById("gallery");
+        button.addEventListener("click", () => input.click());
+        input.addEventListener("change", (ev) => {
+          const files = Array.from(ev.target.files).slice(0, 12);
+          gallery.innerHTML = "";
+          if (files.length === 0) {
+            gallery.innerHTML =
+              '<div class="photo">Keine Fotos ausgewählt</div>';
+            return;
+          }
+          files.forEach((file) => {
+            const reader = new FileReader();
+            const wrap = document.createElement("div");
+            wrap.className = "photo";
+            reader.onload = (e) => {
+              const img = document.createElement("img");
+              img.src = e.target.result;
+              wrap.appendChild(img);
+            };
+            reader.readAsDataURL(file);
+            gallery.appendChild(wrap);
+          });
+        });
+      })();
+
+      // small accessibility: prefers-reduced-motion respect
+      (function () {
+        const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+        if (mq.matches) {
+          document
+            .querySelectorAll("*")
+            .forEach((el) => (el.style.animationDuration = "0.001s"));
+        }
+      })();
+    </script>
+  </body>
+</html>
